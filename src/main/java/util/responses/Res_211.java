@@ -4,6 +4,11 @@ package util.responses;
  * Created by Allen on 2016/5/13.
  */
 public class Res_211 extends BaseResponse {
+    public Res_211() {
+        code = 211;
+        message = null;
+    }
+
     public Res_211(String... features) {
         code = 211;
         StringBuilder stringBuilder = new StringBuilder();

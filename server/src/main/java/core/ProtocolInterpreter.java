@@ -8,7 +8,7 @@ import io.netty.channel.EventLoopGroup;
 public interface ProtocolInterpreter {
 
     /**
-     * Start the protocol interpreter channel with given eventLoopGroup.*
+     * Start the protocol interpreter channel.
      */
     void start();
 }

@@ -11,7 +11,7 @@ public abstract class BaseRequest {
         params = null;
     }
 
-    public void setParams(String[] params) {
+    public void setParams(String... params) {
         this.params = params;
     }
 
@@ -24,5 +24,19 @@ public abstract class BaseRequest {
 
     public String getCmd() {
         return cmd;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(cmd);
+        if (params != null) {
+            for (String string : params) {
+                stringBuilder.append(" " + string);
+            }
+        }
+        stringBuilder.append(System.getProperty("line.separator"));
+
+        return stringBuilder.toString();
     }
 }

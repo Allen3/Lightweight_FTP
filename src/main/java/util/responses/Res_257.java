@@ -5,6 +5,11 @@ package util.responses;
  */
 public class Res_257 extends BaseResponse {
 
+    public Res_257() {
+        code = 257;
+        message = null;
+    }
+
     public Res_257(String message) {
         code = 257;
         this.message = message;
