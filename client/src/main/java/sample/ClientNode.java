@@ -1,17 +1,12 @@
 package sample;
 
-import core.DataTransferClient;
 import core.DataTransferServer;
 import core.FtpClient;
 import core.ResponseListener;
 import core.impl.DefaultFtpClient;
-import io.netty.buffer.ByteBuf;
-import io.netty.channel.Channel;
-import util.NetworkPair;
 import util.NetworkPairv4;
 import util.requests.*;
 import util.responses.BaseResponse;
-import util.responses.Res_331;
 
 import java.net.InetSocketAddress;
 
@@ -83,7 +78,7 @@ public class ClientNode implements ResponseListener {
 
     public static void main(String args[]) {
         ClientNode clientNode = new ClientNode();
-        clientNode.ftpClient.connect("192.168.1.100", "2121");
+        clientNode.ftpClient.connect("192.168.1.104", "21");
 
         try {
             Thread.sleep(1000);
@@ -110,9 +105,19 @@ public class ClientNode implements ResponseListener {
 //        clientNode.ftpClient.getClientContext().setFileName("cu-backup.txt");
 //        clientNode.dtpOperate(requestRETR);
 
+        BaseRequest requestCWD = new CWD();
+        requestCWD.setParams("Desktop");
+        clientNode.ftpClient.operate(requestCWD);
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         BaseRequest requestSTOR = new STOR();
-        requestSTOR.setParams("cu.txt");
-        clientNode.ftpClient.getClientContext().setFileName("cu-backup.txt");
+        requestSTOR.setParams("IMG.jpg");
+        clientNode.ftpClient.getClientContext().setFileName("IMG_TEST.jpg");
         clientNode.dtpOperate(requestSTOR);
     }
 }
