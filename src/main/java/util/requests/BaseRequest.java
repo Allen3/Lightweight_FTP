@@ -4,6 +4,8 @@ package util.requests;
  * Created by Allen on 4/28/2016.
  */
 public abstract class BaseRequest {
+    public static String[] DTP_REQUEST = {"LIST", "RETR", "STOR"};
+
     String cmd;
     String[] params;
 

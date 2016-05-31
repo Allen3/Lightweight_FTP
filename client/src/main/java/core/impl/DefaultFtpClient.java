@@ -11,7 +11,6 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import util.requests.AUTH;
 import util.requests.BaseRequest;
 import util.responses.BaseResponse;
 
@@ -57,10 +56,12 @@ public class DefaultFtpClient implements FtpClient {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
                             socketChannel.pipeline().addLast("ResAnalyzeHandler", new ResAnalyzeHandler(DefaultFtpClient.this));
+
                             socketChannel.pipeline().addLast("UserResHandler", new UserResHandler(DefaultFtpClient.this));
                             socketChannel.pipeline().addLast("PassResHandler", new PassResHandler(DefaultFtpClient.this));
                             socketChannel.pipeline().addLast("SystResHandler", new SystResHandler(DefaultFtpClient.this));
                             socketChannel.pipeline().addLast("PasvResHandler", new PasvResHandler(DefaultFtpClient.this));
+                            socketChannel.pipeline().addLast("ListResHandler", new ListResHandler(DefaultFtpClient.this));
                         }
                     });
 
@@ -91,6 +92,7 @@ public class DefaultFtpClient implements FtpClient {
         if (channel != null) {
             ByteBuf byteBuf = channel.alloc().directBuffer();
             byteBuf.writeBytes(request.toString().getBytes(clientContext.getCharset()));
+            System.out.print(request.toString());
             channel.writeAndFlush(byteBuf);
             lastRequest = request;
         }

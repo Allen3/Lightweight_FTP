@@ -19,6 +19,8 @@ public class ClientContext {
     private Channel dtpChannel;
     private BaseRequest dtpRequeset;
     private String fileName;
+    private boolean pcPrintPriviledge;
+    private String pendingPCMessage;
 
     public ClientContext() {
         charset = Charset.forName("UTF-8");
@@ -26,6 +28,8 @@ public class ClientContext {
         dtpChannel = null;
         dtpRequeset = null;
         fileName = null;
+        pcPrintPriviledge = true;
+        pendingPCMessage = null;
     }
 
     public String getUsername() {
@@ -98,5 +102,21 @@ public class ClientContext {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public synchronized boolean isPcPrintPriviledge() {
+        return pcPrintPriviledge;
+    }
+
+    public synchronized void setPcPrintPriviledge(boolean pcPrintPriviledge) {
+        this.pcPrintPriviledge = pcPrintPriviledge;
+    }
+
+    public String getPendingPCMessage() {
+        return pendingPCMessage;
+    }
+
+    public void setPendingPCMessage(String pendingPCMessage) {
+        this.pendingPCMessage = pendingPCMessage;
     }
 }

@@ -39,32 +39,42 @@ public class ClientNode implements ResponseListener {
         }
     }
 
-    public void list() {
-        BaseRequest requestLIST = new LIST();
-        ftpClient.getClientContext().setDtpRequeset(requestLIST);
-
-        if (ftpClient.isConnectionEstablished()) {
-            if (ftpClient.getClientContext().isPassiveMode()) {
-                // send PASV
-                BaseRequest requestPASV = new PASV();
-                ftpClient.setLastRequest(requestPASV);
-                ftpClient.operate(requestPASV);
-            } else {
-                // send PORT
-                BaseRequest requestPORT = new PORT();
-
-                // Build DataTransferServer.
-                DataTransferServer dataTransferServer = new DataTransferServer(ftpClient);
-                InetSocketAddress dtpSocketAddress = (InetSocketAddress) dataTransferServer.start().localAddress();
-                InetSocketAddress pcSocketAddress = (InetSocketAddress) ftpClient.getChannel().localAddress();
-                NetworkPairv4 networkPair = new NetworkPairv4(pcSocketAddress.getAddress().toString().substring(1), dtpSocketAddress.getPort());
-
-                requestPORT.setParams(NetworkPairv4.compress(networkPair));
-                ftpClient.setLastRequest(requestPORT);
-                ftpClient.operate(requestPORT);
-
+    public void dtpOperate(BaseRequest request) {
+        boolean isDtpRequest = false;
+        for (String dtpReq : BaseRequest.DTP_REQUEST) {
+            if (request.getCmd().equals(dtpReq)) {
+                isDtpRequest = true;
+                break;
             }
         }
+
+        if (isDtpRequest) {
+            ftpClient.getClientContext().setDtpRequeset(request);
+
+            if (ftpClient.isConnectionEstablished()) {
+                if (ftpClient.getClientContext().isPassiveMode()) {
+                    // send PASV
+                    BaseRequest requestPASV = new PASV();
+                    ftpClient.setLastRequest(requestPASV);
+                    ftpClient.operate(requestPASV);
+                } else {
+                    // send PORT
+                    BaseRequest requestPORT = new PORT();
+
+                    // Build DataTransferServer.
+                    DataTransferServer dataTransferServer = new DataTransferServer(ftpClient);
+                    InetSocketAddress dtpSocketAddress = (InetSocketAddress) dataTransferServer.start().localAddress();
+                    InetSocketAddress pcSocketAddress = (InetSocketAddress) ftpClient.getChannel().localAddress();
+                    NetworkPairv4 networkPair = new NetworkPairv4(pcSocketAddress.getAddress().toString().substring(1), dtpSocketAddress.getPort());
+
+                    requestPORT.setParams(NetworkPairv4.compress(networkPair));
+                    ftpClient.setLastRequest(requestPORT);
+                    ftpClient.operate(requestPORT);
+
+                }
+            }
+        }
+
     }
 
     public void listen(BaseResponse response) {
@@ -73,10 +83,22 @@ public class ClientNode implements ResponseListener {
 
     public static void main(String args[]) {
         ClientNode clientNode = new ClientNode();
-        clientNode.ftpClient.connect("192.168.1.112", "2121");
+        clientNode.ftpClient.connect("192.168.1.100", "2121");
 
-        clientNode.logIn("a", "bbb");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        clientNode.logIn("allen", "osullivan");
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         clientNode.ftpClient.getClientContext().setPassiveMode(true);
-        clientNode.list();
+        clientNode.dtpOperate(new LIST());
     }
 }

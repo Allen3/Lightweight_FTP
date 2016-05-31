@@ -16,7 +16,6 @@ public class PassResHandler extends SimpleChannelInboundHandler<PASS> {
 
     public PassResHandler(FtpClient ftpClient) {
         this.ftpClient = ftpClient;
-
     }
 
     @Override
@@ -26,7 +25,9 @@ public class PassResHandler extends SimpleChannelInboundHandler<PASS> {
             BaseRequest requestSYST = new SYST();
             ftpClient.setLastRequest(requestSYST);
             ftpClient.operate(requestSYST);
+        } else if (ftpClient.getResponse().getCode() == 530) {
+            //TODO
+            // Not logged in.
         }
-
     }
 }

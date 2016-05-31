@@ -30,7 +30,15 @@ public class ResAnalyzeHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         String message = ((ByteBuf) msg).toString(ftpClient.getClientContext().getCharset());
 
-        System.out.print(message);
+        if (ftpClient.getClientContext().isPcPrintPriviledge() && message!= null) {
+            System.out.print(message);
+        } else {
+            if (ftpClient.getClientContext().getPendingPCMessage() != null) {
+                ftpClient.getClientContext().setPendingPCMessage(ftpClient.getClientContext().getPendingPCMessage() + message);
+            } else {
+                ftpClient.getClientContext().setPendingPCMessage(message);
+            }
+        }
 
         // Remove the line separator.
         message = message.replaceAll("(\\r|\\n)", "");
