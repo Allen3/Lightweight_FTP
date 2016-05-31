@@ -34,7 +34,7 @@ public class GeneralDataHandler extends ChannelInboundHandlerAdapter {
         ftpClient.operate(ftpClient.getClientContext().getDtpRequeset());
 
         if (ftpClient.getClientContext().getDtpRequeset() instanceof RETR) {
-            fileOutputStream = new FileOutputStream(new File(ftpClient.getClientContext().getFileName()), true);
+            fileOutputStream = new FileOutputStream(new File(ftpClient.getClientContext().getLocalPath(), ftpClient.getClientContext().getFileName()), true);
         }
 
         super.channelActive(ctx);

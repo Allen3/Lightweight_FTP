@@ -10,3 +10,5 @@ Development Log
 ##31st, May, 2016
 
   * Solving the problem remained the last day.
+  
+  * Support `STOR` and `RETR` function.

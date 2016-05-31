@@ -18,6 +18,7 @@ public class ClientContext {
     private NetworkPair passiveDTPNetworkPair;
     private Channel dtpChannel;
     private BaseRequest dtpRequeset;
+    private String localPath;
     private String fileName;
     private boolean pcPrintPriviledge;
     private String pendingPCMessage;
@@ -27,6 +28,7 @@ public class ClientContext {
         passiveMode = false;
         dtpChannel = null;
         dtpRequeset = null;
+        localPath = System.getProperty("user.home");
         fileName = null;
         pcPrintPriviledge = true;
         pendingPCMessage = null;
@@ -64,6 +66,10 @@ public class ClientContext {
         return dtpRequeset;
     }
 
+    public String getLocalPath() {
+        return localPath;
+    }
+
     public String getFileName() {
         return fileName;
     }
@@ -98,6 +104,10 @@ public class ClientContext {
 
     public void setDtpRequeset(BaseRequest dtpRequeset) {
         this.dtpRequeset = dtpRequeset;
+    }
+
+    public void setLocalPath(String localPath) {
+        this.localPath = localPath;
     }
 
     public void setFileName(String fileName) {

@@ -62,6 +62,8 @@ public class DefaultFtpClient implements FtpClient {
                             socketChannel.pipeline().addLast("SystResHandler", new SystResHandler(DefaultFtpClient.this));
                             socketChannel.pipeline().addLast("PasvResHandler", new PasvResHandler(DefaultFtpClient.this));
                             socketChannel.pipeline().addLast("ListResHandler", new ListResHandler(DefaultFtpClient.this));
+                            socketChannel.pipeline().addLast("RrtrResHandler", new RetrResHandler(DefaultFtpClient.this));
+                            socketChannel.pipeline().addLast("StorResHandler", new StorResHandler(DefaultFtpClient.this));
                         }
                     });
 

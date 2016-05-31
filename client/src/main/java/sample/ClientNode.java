@@ -99,6 +99,20 @@ public class ClientNode implements ResponseListener {
         }
 
         clientNode.ftpClient.getClientContext().setPassiveMode(true);
-        clientNode.dtpOperate(new LIST());
+
+//        BaseRequest requestLIST = new LIST();
+//        clientNode.dtpOperate(requestLIST);
+
+
+
+//        BaseRequest requestRETR = new RETR();
+//        requestRETR.setParams("cu.txt");
+//        clientNode.ftpClient.getClientContext().setFileName("cu-backup.txt");
+//        clientNode.dtpOperate(requestRETR);
+
+        BaseRequest requestSTOR = new STOR();
+        requestSTOR.setParams("cu.txt");
+        clientNode.ftpClient.getClientContext().setFileName("cu-backup.txt");
+        clientNode.dtpOperate(requestSTOR);
     }
 }
